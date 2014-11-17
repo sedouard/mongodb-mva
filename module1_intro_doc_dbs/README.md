@@ -34,7 +34,7 @@ Here's what this data may look like in a SQL database
 
 
 ID  | FIRST_NAME | LAST_NAME
-------------- | -------------
+------------- | ------------- | -------------
 0  | Steven | Edouard
 1 | Sam | Brightwood
 
@@ -42,7 +42,7 @@ ID  | FIRST_NAME | LAST_NAME
 **Accounts**
 
 ID  | ACCOUNT_TYPE | ACCOUNT_BALANCE | CURRENCY | HOLDER (FK: Persons)
-------------- | -------------
+------------- | ------------- | ------------- | ------------- | -------------
 0  | Investment | 80000.00 | USD | 0
 1  | Savings | 70400.00 | USD | 0
 2  | Checking | 4500.00 | USD | 0
