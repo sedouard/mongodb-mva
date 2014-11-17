@@ -32,10 +32,12 @@ Here's what this data may look like in a SQL database
 
 **Persons:**
 
+
 ID  | FIRST_NAME | LAST_NAME
 ------------- | -------------
 0  | Steven | Edouard
 1 | Sam | Brightwood
+
 
 **Accounts**
 
