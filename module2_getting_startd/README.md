@@ -169,9 +169,13 @@ We can always do a **count()** over the results to see how many documents were r
 
 ```js
 db.bank_data.find().count()
-``````json
+```
+
+```json
 50000
-```Will return the number of documents in the collection since *find()* has no parameters.
+```
+
+Will return the number of documents in the collection since *find()* has no parameters.
 
 Let's look at some of basic queries and those with **AND**, **OR**, **Greater Than/Less Than/NotEqual**:
 
@@ -189,7 +193,7 @@ And we'll see how many people exist in the database with the last name, SMITH:
 100
 ```
 
-We can pick out a record to display by selecting a number on the collection between 0 and 517 for this example:
+We can pick out a record to display by selecting a number on the collection between 0 and 100 for this example:
 
 ```js
 db.bank_data.find({last_name : "SMITH"})[12]
@@ -246,7 +250,9 @@ This will return the 13th record in the result:
 	]
 }
 
-```Notice how we retrieved all the accounts as well, even though we only specified the persons last name. This is because when we query we are querying for documents and therefore any associated information is also retrieved.
+```
+
+Notice how we retrieved all the accounts as well, even though we only specified the persons last name. This is because when we query we are querying for documents and therefore any associated information is also retrieved.
 
 It's possible to omit the associated information by specifying a second project object to the *find()* function:
 
@@ -259,7 +265,8 @@ db.bank_data.find({last_name : "SMITH"}, {first_name : 1, last_name: 1})[12]
 	"_id" : ObjectId("546960b6ca357ca95f301689"),
 	"first_name" : "CHRISTOPHER",
 	"last_name" : "SMITH"
-}```
+}
+```
 
 Notice how the output above omits all the accounts for CHRISTOPHER SMITH.
 
@@ -443,7 +450,8 @@ db.bank_data.find({$or: [ { last_name: "MARTINEZ"}, {last_name: "SMITH"} ]}, {fi
 ```
 
 The '1' means to sort ascending by the specified column, and '-1' means sort descending. Since these are string fields, you'll get a a nice alphabetical listing defending by first name:
-```json
+
+```json
 { "_id" : ObjectId("546960b6ca357ca95f3016cb"), "first_name" : "AARON", "last_name" : "SMITH" }
 { "_id" : ObjectId("546960bfca357ca95f301ab3"), "first_name" : "AARON", "last_name" : "MARTINEZ" }
 { "_id" : ObjectId("546960b6ca357ca95f3016c3"), "first_name" : "ADAM", "last_name" : "SMITH" }
@@ -465,12 +473,14 @@ The '1' means to sort ascending by the specified column, and '-1' means sort des
 { "_id" : ObjectId("546960b6ca357ca95f3016c7"), "first_name" : "BILLY", "last_name" : "SMITH" }
 { "_id" : ObjectId("546960bfca357ca95f301aaf"), "first_name" : "BILLY", "last_name" : "MARTINEZ" }
 
-```### Greater Than, Less Than, Not Equal To Operators
+```
+### Greater Than, Less Than, Not Equal To Operators
 
 Like the **$or** operator alias, mongodb also offers the **$gt**, **$lt**, **$ne** operator aliases for greater than, less than and equal to operators, respectivley. There are also coorsponding **$gte**, **$lte** for greater than or equal to and less than or equal to.
 
 Say that we only wanted to retrieve persons with any bank account with an account balance greater than 9 million dollars USD.
-	We can do this by using the **$gt** operator on the embedded account document *account_balance* field:
+	
+We can do this by using the **$gt** operator on the embedded account document *account_balance* field:
 
 ```js
 db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000} })
@@ -594,7 +604,9 @@ db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currenc
 { "_id" : ObjectId("546960faca357ca95f303639"), "first_name" : "KEVIN", "last_name" : "CRUZ", "accounts" : [ { "account_type" : "Savings", "account_balance" : 6700829.7476021685, "currency" : "YUAN" }, { "account_type" : "401K", "account_balance" : 5828740.46791689, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 3725809.2336768657, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 4029279.9052403504, "currency" : "EURO" }, { "account_type" : "Investment", "account_balance" : 5557778.601756326, "currency" : "YUAN" }, { "account_type" : "Investment", "account_balance" : 4529905.238752328, "currency" : "PESO" }, { "account_type" : "401K", "account_balance" : 5900849.270542218, "currency" : "YUAN" }, { "account_type" : "Investment", "account_balance" : 9999480.13929081, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 8280434.977165401, "currency" : "EURO" } ] }
 { "_id" : ObjectId("546961b4ca357ca95f30ae0c"), "first_name" : "EARL", "last_name" : "NAVARRO", "accounts" : [ { "account_type" : "401K", "account_balance" : 1530719.4163466224, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 9999090.143345077, "currency" : "POUNDS STERLING" }, { "account_type" : "401K", "account_balance" : 1914183.7856416223, "currency" : "YUAN" }, { "account_type" : "Savings", "account_balance" : 901865.6920296131, "currency" : "YUAN" }, { "account_type" : "401K", "account_balance" : 6268518.440819243, "currency" : "YUAN" }, { "account_type" : "401K", "account_balance" : 5376494.119598793, "currency" : "PESO" }, { "account_type" : "Savings", "account_balance" : 8474789.101189336, "currency" : "YUAN" }, { "account_type" : "Savings", "account_balance" : 5855245.647297914, "currency" : "EURO" }, { "account_type" : "Investment", "account_balance" : 1604485.2395725362, "currency" : "EURO" } ] }
 
-```## Conclusion
+```
+
+## Conclusion
 
 In this section we covered how to get mongodb setup onto your machine and doing simple queries from the interactive shell. 
 
