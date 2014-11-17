@@ -70,53 +70,62 @@ The same data above can be described in a document oriented database with a JSON
 # Person Collection (Person is the root entity)
 [
 {
-	first_name: Steven,
-	last_name: Edouard,
-	accounts: [
+	"first_name": "Steven",
+	"last_name": "Edouard",
+	"accounts": [
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Investment",
-			account_balance: "80000.00",
-			currency: "USD"		},
+			"id": 0,
+			"account_type": "Investment",
+			"account_balance": "80000.00",
+			"currency": "USD"
+		},
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Savings",
-			account_balance: "70400.00",
-			currency: "USD"		},
+			"id": 0,
+			"account_type": "Savings",
+			"account_balance": "70400.00",
+			"currency": "USD"
+		},
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Checking",
-			account_balance: "80000.00",
-			currency: "USD"		}
-	]}
+			"id": 0,
+			"account_type": "Checking",
+			"account_balance": "80000.00",
+			"currency": "USD"
+		}
+	]
+}
 {
-	first_name: Sam,
-	last_name: Brightwood,
-	accounts:[
+	"first_name": "Sam",
+	"last_name": "Brightwood",
+	"accounts":[
 		
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Checking",
-			account_balance: "4500.00",
-			currency: "YEN"		}
+			"id": 0,
+			"account_type": "Checking",
+			"account_balance": "4500.00",
+			"currency": "YEN"
+		}
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Investment",
-			account_balance: "4500.00",
-			currency: "YEN"		},
+			"id": 0,
+			"account_type": "Investment",
+			"account_balance": "4500.00",
+			"currency": "YEN"
+		},
 		{
 			# note how there is no 'foreign key' field
-			id: 0,
-			account_type: "Savings",
-			account_balance: "4500.00",
-			currency: "YEN"		}
-	]}	
-]
+			"id": 0,
+			"account_type": "Savings",
+			"account_balance": "4500.00",
+			"currency": "YEN"
+		}
+	]
+}	
+
+]
 
 ```
 
