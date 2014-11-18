@@ -80,7 +80,7 @@ crimes.mapReduce(function(){
     //use a javascript array to create key mappings between 0-6 and Sunday - Saturday
     var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     //emit the mapping between this document and the Day which it cooresponds to.
-    emit(daysOfWeek[date.getDay()], this);
+    emit(daysOfWeek[date.getDay()], 1);
 }
 ```
 
@@ -100,7 +100,7 @@ The **reduce** function is the second parameter to the **mapReduce** function wh
 function(key, values){
     //reduce the set of values to a single sum.
     //the count of values for this day (key) is sufficient enough
-    return values.length;
+    return Array.sum(values);
   },
 ```
 It turns out that the reduce function for this question is quite easy. We just have to return the number of documents that have been mapped to the key (the day of the week).
