@@ -254,7 +254,7 @@ This will return the 13th record in the result:
 
 Notice how we retrieved all the accounts as well, even though we only specified the persons last name. This is because when we query we are querying for documents and therefore any associated information is also retrieved.
 
-It's possible to omit the associated information by specifying a second project object to the *find()* function:
+It's possible to omit the associated information by specifying a second projection object to the *find()* function:
 
 ```js
 db.bank_data.find({last_name : "SMITH"}, {first_name : 1, last_name: 1})[12]
@@ -379,7 +379,7 @@ db.bank_data.find({last_name: "SMITH", accounts.account_type: "Savings" })[12]
 
 OR queries are slightly different because they require us to use the **$or** operator alias, since the projection object syntax doesn't allow for us to specify it any other way.
 
-Say that we wanted to get any person whose last name is SMITH or EDWARD. This query would look something like:
+Say that we wanted to get any person whose last name is SMITH or MARTINEZ. This query would look something like:
 
 ```js
 
@@ -449,7 +449,7 @@ Note that **you may have to type 'it'** to iterate to get to the MARTINEZ result
 db.bank_data.find({$or: [ { last_name: "MARTINEZ"}, {last_name: "SMITH"} ]}, {first_name: 1, last_name: 1}).sort({first_name: 1 })
 ```
 
-The '1' means to sort ascending by the specified column, and '-1' means sort descending. Since these are string fields, you'll get a a nice alphabetical listing defending by first name:
+The '1' means to sort ascending by the specified column, and '-1' means sort descending. Since these are string fields, you'll get a a nice alphabetical listing descending by first name:
 
 ```json
 { "_id" : ObjectId("546960b6ca357ca95f3016cb"), "first_name" : "AARON", "last_name" : "SMITH" }
@@ -608,8 +608,8 @@ db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currenc
 
 ## Conclusion
 
-In this section we covered how to get mongodb setup onto your machine and doing simple queries from the interactive shell. 
+In this section we covered how to get mongodb ip and running your machine as well as how to go about doing simple queries from the interactive shell. 
 
-MongoDB has a unique querying interface where *projection* object is specified which can contain operators and specifies which fields should be used to match documents in the collection. We can chain these queries with the **sort()** function to return our documents in any particular order we need. In addition we can specify a second object to specify which fields in the document should be included in the results.
+MongoDB has a unique querying interface where a *projection* object is specified which can contain operators and selects which fields should be used to match documents in the collection. We can chain these queries with the **sort()** function to return our documents in any particular order we need. In addition we can specify a second object to specify only the fields in the document should be included in the results.
 
 Module 3 will dive into the Node.js and the C# language drivers and demonstrate how we can create and update Person entities in the database.
