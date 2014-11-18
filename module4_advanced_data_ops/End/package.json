@@ -1,0 +1,8 @@
+{
+  "name": "eventful-node",
+  "description": "super thin eventful client api library",
+  "version": "1.1.1",
+  "dependencies": {
+    "mongodb": "^1.4.19"
+  }
+}
