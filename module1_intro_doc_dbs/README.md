@@ -82,13 +82,13 @@ The same data above can be described in a document oriented database with a JSON
 			"currency": "USD"
 		},
 		{
-			"id": 0,
+			"id": 1,
 			"account_type": "Savings",
 			"account_balance": "70400.00",
 			"currency": "USD"
 		},
 		{
-			"id": 0,
+			"id": 2,
 			"account_type": "Checking",
 			"account_balance": "80000.00",
 			"currency": "USD"
@@ -101,20 +101,20 @@ The same data above can be described in a document oriented database with a JSON
 	"accounts":[
 		
 		{
-			"id": 0,
+			"id": 3,
 			"account_type": "Checking",
 			"account_balance": "4500.00",
 			"currency": "YEN"
 		}
 		{
-			"id": 0,
+			"id": 4,
 			"account_type": "Investment",
 			"account_balance": "4500.00",
 			"currency": "YEN"
 		},
 		{
 
-			"id": 0,
+			"id": 5,
 			"account_type": "Savings",
 			"account_balance": "4500.00",
 			"currency": "YEN"
@@ -125,6 +125,15 @@ The same data above can be described in a document oriented database with a JSON
 ]
 
 ```
+Now, let's answer the original two questions again:
+
+*Who is the account holder for account with ID = 3?*
+
+To answer this question we can just look up the account with the unique ID 3, and by finding that account, we automatically pull the associated user. This is just as fast as the tabular organization.
+
+*Which accounts does person Steven Edouard hold?*
+
+This question can be answered by looking for the person with ```first_name="Steven"``` and ```last_name="Edouard"``. Once we locate that person, the associated accounts are automatically found since they are associated in the database organization. This type of query proves to be much faster than the tabular approach.
 
 Notice how this looks *very* different than the tabular representation. This is a very clever way of storing our data because it the relationship between Persons and Accounts is inherent in the structure of the data. Meaning, when we retrieve the Person, Steven Edouard, we also retrieve all of his bank accounts, eliminating the need for any expensive joins here.
 
