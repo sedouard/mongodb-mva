@@ -39,7 +39,7 @@ This starts up the MongoDB server and indicates we can start inserting data.
 
 ## MongoDB Database Organization
 
-Similar to other database systems, Mongodb data organization starts with the database server (the **mongod** process. Each server may have N number of databases and within each database there are N number of [collections](http://docs.mongodb.org/manual/reference/glossary/#term-collection). 
+Similar to other database systems, Mongodb data organization starts with the database server (the **mongod** process). Each server may have N number of databases and within each database there are N number of [collections](http://docs.mongodb.org/manual/reference/glossary/#term-collection). 
 
 ![](ScreenShots/mongodbss2.png)
 
@@ -71,7 +71,7 @@ Now that all your bank accounts data has been loaded up into MongoDB we are read
 
 ## The MongoDB Interactive Shell
 
-MongoDB has an interactive shell which is very similar to the javascript interactive shell except it includes a mongosb api. Most commands are actually javascript however are slightly different than the Node.js javascript version we will work with in [module 3](../module3_language_drivers/README.md). To run the shell execute the following command from your mongodb installation **bin** folder:
+MongoDB has an interactive shell which is very similar to the javascript interactive shell except it includes a mongodb api. Most commands are actually javascript however are slightly different than the Node.js javascript version we will work with in [module 3](../module3_language_drivers/README.md). To run the shell execute the following command from your mongodb installation **bin** folder:
 
 ```bash
 mongo
@@ -85,7 +85,7 @@ If you ever want to explore anything outside of this guide in the interactive sh
 help
 ```
 
-The remainder of this module will use the MongoDB Interactive Shell to explore MongoDB capabilities. [Module 3](../module3_language_drivers/README.md) will focus on the [C# (http://docs.mongodb.org/ecosystem/drivers/csharp/)and [Node.js](http://docs.mongodb.org/ecosystem/drivers/node-js/) language drivers.
+The remainder of this module will use the MongoDB Interactive Shell to explore MongoDB capabilities. [Module 3](../module3_language_drivers/README.md) will focus on the [C#] (http://docs.mongodb.org/ecosystem/drivers/csharp/)and [Node.js](http://docs.mongodb.org/ecosystem/drivers/node-js/) language drivers.
 
 ### Collections
 
@@ -182,12 +182,13 @@ We can always do a **count()** over the results to see how many documents were r
 ```js
 db.bank_data.find().count()
 ```
+Will return the number of documents in the collection since *find()* has no parameters:
 
 ```json
 50000
 ```
 
-Will return the number of documents in the collection since *find()* has no parameters.
+
 
 Let's look at some of basic queries and those with **AND**, **OR**, **Greater Than/Less Than/NotEqual**:
 
@@ -266,7 +267,7 @@ This will return the 13th record in the result:
 
 Notice how we retrieved all the accounts as well, even though we only specified the persons last name. This is because when we query we are querying for documents and therefore any associated information is also retrieved.
 
-It's possible to omit the associated information by specifying a second projection object to the *find()* function:
+It's possible to omit the associated information by specifying a second [projection](http://docs.mongodb.org/manual/reference/operator/projection/positional/) object to the *find()* function:
 
 ```js
 db.bank_data.find({last_name : "SMITH"}, {first_name : 1, last_name: 1})[12]
@@ -654,6 +655,7 @@ db.bank_data.find({ accounts: { $elemMatch : { "account_type": {$ne: "Checking"}
 Now you can see we have some Person documents with checking accounts but none with balances greater than $9.9M USD:
 
 ```json
+
 { "_id" : ObjectId("546d782adf1e5b91fcb57233"), "first_name" : "LOUIS", "last_name" : "WILLIAMS", "accounts" : [ { "account_type" : "401K", "account_balance" : 6706903.630263763, "currency" : "PESO" }, { "account_type" : "Checking", "account_balance" : 718301.4651508627, "currency" : "YUAN" }, { "account_type" : "Savings", "account_balance" : 7312210.597896284, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 5729521.857385723, "currency" : "YEN" }, { "account_type" : "Investment", "account_balance" : 4633504.068461469, "currency" : "EURO" }, { "account_type" : "Savings", "account_balance" : 9904890.704406753, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 7627857.810319329, "currency" : "POUNDS STERLING" } ] }
 { "_id" : ObjectId("546d782bdf1e5b91fcb57259"), "first_name" : "PAUL", "last_name" : "BROWN", "accounts" : [ { "account_type" : "Savings", "account_balance" : 3600730.92475014, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 9981281.53222422, "currency" : "USD" }, { "account_type" : "401K", "account_balance" : 4150310.5143678905, "currency" : "POUNDS STERLING" }, { "account_type" : "Investment", "account_balance" : 1399256.221257143, "currency" : "USD" }, { "account_type" : "401K", "account_balance" : 1922134.0013783542, "currency" : "POUNDS STERLING" }, { "account_type" : "Investment", "account_balance" : 851790.2540412813, "currency" : "USD" }, { "account_type" : "Checking", "account_balance" : 2640154.7193671735, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 7269654.143067777, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 7673523.203527218, "currency" : "USD" } ] }
 { "_id" : ObjectId("546d782bdf1e5b91fcb5725c"), "first_name" : "GEORGE", "last_name" : "BROWN", "accounts" : [ { "account_type" : "Investment", "account_balance" : 3591667.0242768256, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 9936431.774947472, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 4755925.989557322, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 111172.67009143182, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 332127.87410061574, "currency" : "YEN" }, { "account_type" : "Checking", "account_balance" : 8336491.214461608, "currency" : "USD" } ] }
@@ -673,7 +675,8 @@ Now you can see we have some Person documents with checking accounts but none wi
 { "_id" : ObjectId("546d7845df1e5b91fcb57bf1"), "first_name" : "ADAM", "last_name" : "WALKER", "accounts" : [ { "account_type" : "401K", "account_balance" : 8845986.889367267, "currency" : "YUAN" }, { "account_type" : "Checking", "account_balance" : 7872933.596046742, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 3972322.2898087455, "currency" : "YEN" }, { "account_type" : "Investment", "account_balance" : 6644355.511821516, "currency" : "PESO" }, { "account_type" : "Savings", "account_balance" : 9944452.997038499, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 7315829.963859785, "currency" : "EURO" }, { "account_type" : "401K", "account_balance" : 1500268.200328492, "currency" : "USD" }, { "account_type" : "Investment", "account_balance" : 1899574.9145137856, "currency" : "YEN" }, { "account_type" : "Investment", "account_balance" : 1466540.1610838561, "currency" : "POUNDS STERLING" } ] }
 { "_id" : ObjectId("546d7847df1e5b91fcb57c5d"), "first_name" : "AARON", "last_name" : "PEREZ", "accounts" : [ { "account_type" : "Investment", "account_balance" : 5799973.474100724, "currency" : "EURO" }, { "account_type" : "Savings", "account_balance" : 9907659.889359972, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 5076597.758945461, "currency" : "YUAN" }, { "account_type" : "Savings", "account_balance" : 1661545.5589190929, "currency" : "PESO" }, { "account_type" : "Savings", "account_balance" : 707982.6495432614, "currency" : "YUAN" }, { "account_type" : "Investment", "account_balance" : 7514690.33361989, "currency" : "PESO" }, { "account_type" : "401K", "account_balance" : 6000364.979929898, "currency" : "PESO" }, { "account_type" : "Investment", "account_balance" : 6631186.570023831, "currency" : "EURO" }, { "account_type" : "Investment", "account_balance" : 8096845.241363882, "currency" : "POUNDS STERLING" } ] }
 { "_id" : ObjectId("546d7848df1e5b91fcb57cb0"), "first_name" : "SAMUEL", "last_name" : "HALL", "accounts" : [ { "account_type" : "Savings", "account_balance" : 7145237.715715418, "currency" : "USD" }, { "account_type" : "Checking", "account_balance" : 1164475.4884442165, "currency" : "YUAN" }, { "account_type" : "Checking", "account_balance" : 2042413.7690080977, "currency" : "YUAN" }, { "account_type" : "401K", "account_balance" : 9909034.04869648, "currency" : "USD" } ] }
-{ "_id" : ObjectId("546d7849df1e5b91fcb57d30"), "first_name" : "TODD", "last_name" : "YOUNG", "accounts" : [ { "account_type" : "401K", "account_balance" : 5602774.185507225, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 9916627.537654825, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 545377.3508226005, "currency" : "EURO" }, { "account_type" : "401K", "account_balance" : 6689640.075625194, "currency" : "USD" }, { "account_type" : "401K", "account_balance" : 9933399.766133368, "currency" : "USD" } ] }```
+{ "_id" : ObjectId("546d7849df1e5b91fcb57d30"), "first_name" : "TODD", "last_name" : "YOUNG", "accounts" : [ { "account_type" : "401K", "account_balance" : 5602774.185507225, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 9916627.537654825, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 545377.3508226005, "currency" : "EURO" }, { "account_type" : "401K", "account_balance" : 6689640.075625194, "currency" : "USD" }, { "account_type" : "401K", "account_balance" : 9933399.766133368, "currency" : "USD" } ] }
+```
 
 We can also order our query by descending account balance with the **sort()** function like we did previously:
 
