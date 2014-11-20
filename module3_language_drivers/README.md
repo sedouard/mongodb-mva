@@ -1,4 +1,4 @@
-# Module 3: MogoDB Node.js and C# Language Drivers
+# Module 3: MongoDB Node.js and C# Language Drivers
 
 # Objectives
 
