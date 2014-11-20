@@ -27,20 +27,32 @@ Now that you have MongoDB installed you need to create a data directory for it t
 ```bash
 mkdir /data/db
 ```
-Now that we have our data directory you can run the mongodb database process **mongod**:
+Now that we have our data directory you can run the mongodb database process 
+
+**mongod**:
 
 ```bash
 mongod
 ```
 
+This starts up the MongoDB server and indicates we can start inserting data.
+
+## MongoDB Database Organization
+
+Similar to other database systems, Mongodb data organization starts with the database server (the **mongod** process. Each server may have N number of databases and within each database there are N number of [collections](http://docs.mongodb.org/manual/reference/glossary/#term-collection). 
+
+![](ScreenShots/mongodbss2.png)
+
+This structure allows for more advance scaling such as [sharding](http://docs.mongodb.org/manual/sharding/) to provide more throughput and [replicase sets](http://docs.mongodb.org/manual/core/replication/) for better redundancy.
+
 ## Loading up test data into mongodb
 
-Within the data directory of this repository there is a **bank_data.json** file. We will use this file to load up the bank data collection into mongodb. From the mongodb installation **bin** in a new console window, execute the command:
+Within the data directory of this repository there is a **bank_data.json.zip** file; you should decompress it. We will use this file to load up the bank data collection into mongodb. From the mongodb installation **bin** in a new console window, execute the command:
 
 ```bash
 mongoimport <path to bank_data.json> --jsonArray --collection bank_data
 ```
-This may take a while however you'll be able to keep track of the percentage:
+The command will actually load up the json data in the file up into a collection called 'bank_data' in your default MongoDB database on your mongodb server. This may take a while however you'll be able to keep track of the percentage:
 
 ```bash
 Users-Computer-4:bin user$ ./mongoimport /Users/user/Documents/crimeDataConvert/data/bank_data.json --jsonArray --collection bank_data
@@ -51,16 +63,15 @@ connected to: 127.0.0.1
 2014-11-16T02:11:13.316-0800 			700	116/second
 2014-11-16T02:11:16.648-0800 		Progress: 533438/22758676	2%
 2014-11-16T02:11:16.648-0800 			1100	122/second
-
 ```
 
-After all of this 50,000 documents will be uploaded into your local MongoDB server. Although that may sound like a lot, its a manageable size to work with given any modern computer.
+After all of this 50,000 documents will be uploaded into your local MongoDB server. Although that may sound like a lot, its likely a manageable size to work with on your computer.
 
-Now all your bank accounts data has been loaded up into MongoDB we are ready to start exploring!
+Now that all your bank accounts data has been loaded up into MongoDB we are ready to start exploring!
 
 ## The MongoDB Interactive Shell
 
-MongoDB has an interactive shell which is very similar to the javascript interactive shell. Most commands are actually javascript. To run the shell execute the following command from your mongodb installation **bin** folder:
+MongoDB has an interactive shell which is very similar to the javascript interactive shell except it includes a mongosb api. Most commands are actually javascript however are slightly different than the Node.js javascript version we will work with in [module 3](../module3_language_drivers/README.md). To run the shell execute the following command from your mongodb installation **bin** folder:
 
 ```bash
 mongo
@@ -68,13 +79,13 @@ mongo
 
 This will automatically connect you to your local mongodb server running in your other console window.
 
-If you ever want to explore anything outside of this guide in the interactive shell, you can get more info by doing
+If you ever want to explore anything outside of this guide in the interactive shell, you can get more info by doing:
 
 ```bash
 help
 ```
 
-The remainder of this module will use the MongoDB Interactive Shell to explore MongoDB capabilities.
+The remainder of this module will use the MongoDB Interactive Shell to explore MongoDB capabilities. [Module 3](../module3_language_drivers/README.md) will focus on the [C# (http://docs.mongodb.org/ecosystem/drivers/csharp/)and [Node.js](http://docs.mongodb.org/ecosystem/drivers/node-js/) language drivers.
 
 ### Collections
 
@@ -151,6 +162,7 @@ db.collection.find()
 ```
 
 You'll actually get a ton of text similar to:
+
 ```json
 
 { "_id" : ObjectId("5468782fca357ca95f2f4b88"), "first_name" : "JAMES", "last_name" : "SMITH", "accounts" : [ { "account_type" : "Investment", "account_balance" : 6144974.110823463, "currency" : "YEN" }, { "account_type" : "Savings", "account_balance" : 1329372.569229168, "currency" : "EURO" } ] }
@@ -161,9 +173,9 @@ You'll actually get a ton of text similar to:
 { "_id" : ObjectId("54687830ca357ca95f2f4b8d"), "first_name" : "JAMES", "last_name" : "MILLER", "accounts" : [ { "account_type" : "Checking", "account_balance" : 5000794.5164514, "currency" : "EURO" } ] }
 { "_id" : ObjectId("54687830ca357ca95f2f4b8e"), "first_name" : "JAMES", "last_name" : "DAVIS", "accounts" : [ { "account_type" : "401K", "account_balance" : 1634239.7192724317, "currency" : "EURO" }, { "account_type" : "Checking", "account_balance" : 5123875.592675053, "currency" : "YEN" }, { "account_type" : "Investment", "account_balance" : 9652688.997844521, "currency" : "PESO" }, { "account_type" : "401K", "account_balance" : 436608.31229717913, "currency" : "YUAN" } ] }
 { "_id" : ObjectId("54687830ca357ca95f2f4b8f"), "first_name" : "JAMES", "last_name" : "GARCIA", "accounts" : [ { "account_type" : "Investment", "account_balance" : 3928991.3192649623, "currency" : "YUAN" }, { "account_type" : "Checking", "account_balance" : 4061586.788287755, "currency" : "YUAN" }, { "account_type" : "Investment", "account_balance" : 3907978.032141935, "currency" : "POUNDS STERLING" }, { "account_type" : "Checking", "account_balance" : 7980062.845765791, "currency" : "EURO" }, { "account_type" : "Investment", "account_balance" : 5629389.621828526, "currency" : "USD" }, { "account_type" : "Savings", "account_balance" : 2822423.1437263936, "currency" : "PESO" }, { "account_type" : "401K", "account_balance" : 5603218.9455431765, "currency" : "EURO" } ] }
-
 ```
-Pretty unmanageable, huh? That's because the **find()** method called without any parameters retrieves ALL documents in the collection. Since you have so many documents in the collection MongoDB will give us a [cursor](http://en.wikipedia.org/wiki/Cursor_(databases)) which will allow us to iterate through the results in a more manageable fashion.
+
+You'll see the ```Type "it" for more``` prompt because the **find()** method called without any parameters retrieves ALL documents in the collection. Since you have so many documents in the collection MongoDB will give us a [cursor](http://en.wikipedia.org/wiki/Cursor_(databases)) which will allow us to iterate through the results in a more manageable fashion.
 
 We can always do a **count()** over the results to see how many documents were retrieved as a result of the query. For example:
 
