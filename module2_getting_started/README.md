@@ -659,7 +659,7 @@ db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currenc
 
 ## Conclusion
 
-In this section we covered how to get mongodb ip and running your machine as well as how to go about doing simple queries from the interactive shell. 
+In this section we covered how to get mongodb up and running your machine as well as how to go about doing simple queries from the interactive shell. 
 
 MongoDB has a unique querying interface where a *projection* object is specified which can contain operators and selects which fields should be used to match documents in the collection. We can chain these queries with the **sort()** function to return our documents in any particular order we need. In addition we can specify a second object to specify only the fields in the document should be included in the results.
 
