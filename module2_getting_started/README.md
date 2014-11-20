@@ -153,9 +153,9 @@ This command should return something similar to:
 }
 ```
 
-Like our example from [module 1](../module1_intro_doc_dbs/README.md) we get a Person document with a number of Account sub documents within it. This query didn't really have anything interesting to it. We simply wanted to retrieve the first person in Person collection (that is what MongoDB interpreted when we didn't specify any parameters into the *find()* function).
+Like our example from [module 1](../module1_intro_doc_dbs/README.md) we get a Person document with a number of Account sub documents within it. This query didn't really have anything interesting to it. We simply wanted to retrieve the first person in Person collection (that is what MongoDB interpreted when we didn't specify any parameters into the *findOne()* function).
 
-What happens when you execute:
+Let's see what happens when you execute:
 
 ```js
 db.collection.find()
@@ -305,7 +305,7 @@ DAVID SMITH
 
 #### AND Queries
 
-We can achieve an AND query by simply specifying another field int he project object we pass to the *find()* function. Say that we want to get everyone in the database whose last name is SMITH and first name is JAMES:
+We can achieve an AND query by simply specifying another field in the project object we pass to the *find()* function. Say that we want to get everyone in the database whose last name is SMITH and first name is JAMES:
 	
 ```js
 db.bank_data.find({last_name: "SMITH", first_name: "JAMES"})
@@ -333,13 +333,13 @@ We should just get one result if you haven't modified the test data (you can get
 }
 ```
 
-We can also specify these project on embedded collections.
+We can also specify these constraints on embedded collections.
 
 First, let's look for all Persons whose last name is SMITH  *and* have a Savings account:
 
 ```js
 //we know that we have more than 12 elements in the resulting collection
-db.bank_data.find({last_name: "SMITH", accounts.account_type: "Savings" })[12]
+db.bank_data.find({last_name: "SMITH", "accounts.account_type": "Savings" })[12]
 ```
 ```json
 {
@@ -386,6 +386,34 @@ db.bank_data.find({last_name: "SMITH", accounts.account_type: "Savings" })[12]
 	]
 }
 ```
+
+Notice how we retrieve the entire ```accounts``` array even though we only were looking for the element with the ```account_type``` of Savings. The [```$elemMatch```](http://docs.mongodb.org/manual/reference/operator/projection/elemMatch/) projection operator allows us to return just the first element in an array that meets the criteria. 
+	We can use this operator by passing a second projection object which filters the information returned by MongoDB:
+
+```js
+
+// only get the first matching sub document in the array ''accounts'
+db.bank_data.find({last_name: "SMITH", "accounts.account_type": "Savings" }, { first_name: 1, last_name: 1, accounts: { $elemMatch : { 'account_type' : 'Savings' } } } )[12]
+```
+
+This will give us something similar to:
+
+```json
+{
+	"_id" : ObjectId("546d7827df1e5b91fcb57133"),
+	"first_name" : "EDWARD",
+	"last_name" : "SMITH",
+	"accounts" : [
+		{
+			"account_type" : "Savings",
+			"account_balance" : 6743563.754405159,
+			"currency" : "YUAN"
+		}
+	]
+}
+```
+
+In the query above we get ```first_name```, ```last_name``` and only the first matching ```account```. This is great way to limit the amount of data sent back by MongoDB which could be helpful for performance reasons.
 
 #### OR Queries
 
@@ -535,10 +563,20 @@ Here's the 1000th returned Person document:
 }
 ```
 
-This still doesn't get us exactly where we want to be just yet since we aren't taking into consideration the *currency* field. We can combine this with an **and** operation by just specifying the second field in the sub document:
+This still doesn't get us exactly where we want to be just yet since we aren't taking into consideration the *currency* field. It isn't accurate to query by just the account balance because different currencies are worth different amounts. We can combine $gt operator with an **and** operation by just specifying the second field in the sub document:
 
 ```js
 db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currency': 'USD' })
+```
+
+Although this seems correct its actually subtly inaccurate. This query will return Persons with an account that has at least 9 Million and an account that has a currency type of USD. Unfortunatley that's not what we were looking for.
+
+This problem can be solved with the [```$elemMatch```](http://docs.mongodb.org/manual/reference/operator/query/elemMatch/) query operator which can be used to match a specific element in an array embedded in the document. This operator works very similar to the [projection version](http://docs.mongodb.org/manual/reference/operator/query/elemMatch/) with the exception that it is used as part of a query and not a projection. 
+
+Here's how we can use the operator to find a Persons with an account balance of $9 USD:
+
+```js
+db.bank_data.find({ accounts: { $elemMatch : { "account_type": "Checking", "currency": "USD", 'account_balance' : { $gt: 9900000 } } } } )
 ```
 
 Now you can see that we are only selecting Persons with USD bank accounts greater than 9 million dollars.
@@ -586,6 +624,7 @@ Now you can see that we are only selecting Persons with USD bank accounts greate
 }
 
 ```
+
 What if the bank wanted to exclude all persons with a checking account front this query. We can do this with the **$ne** operator alias:
 
 ```js
