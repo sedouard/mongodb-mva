@@ -5,21 +5,22 @@
 
 By the end of this module you'll know how:
 
-- The basic applications of Map Reduce and Aggregations
-- To process data with Map/Reduce tasks in MongoDB against a large
+- Load large cdv data sets into MongoDB
+- The basics of Map Reduce and Aggregations
+- To process data with Map/Reduce tasks in MongoDB against a large collection
 - To process data MongoDB Aggregation Tasks
 
 # Introduction
 
 MongoDB provides support for large data processing tasks such as [Map Reduce](http://docs.mongodb.org/manual/core/map-reduce/) and [Aggregation](http://docs.mongodb.org/manual/core/aggregation-pipeline/). Map Reduce is the process of processing your entire database with 2 steps **Map** and **Reduce**.  The Map step maps every document in your database to a category or key. Then in the reduce step, every key reduces all of its mapped values by aggregating all the values with some type of algorithm.
 
-MongoDB aggregation tasks are a subset of Map Reduce which allows for aggregation on subsets of your database, avoid the requirement of processing the entire database.
+MongoDB aggregation tasks allow similar operations as Map Reduce but works as a pipeline rather than a 2 step process. Aggregations allow you take a collection and transform it N number of times until you get the collection you desire. The advantage to Aggregations vs Map Reduce is that it allows you to only process the parts of your database you need and exclude parts you don't. Map Reduce requires that your *entire* database be processed.
 
 # The Example Data Set
 
-The example data set we will be dealing with is City of Chicago crime police report data from 2001 to 'present' which at the time of writing this is November 2014. The data comes in a large .csv file that we have uploaded to a zipped version [here](http://storage.windows.net). You can also find the original unzipped download link from the City of Chicago [here]().
+The example data set we will be dealing with is City of Chicago crime police report data from 2001 to 'present' which at the time of writing this is November 2014. The data comes in a large .csv file and we have uploaded a zipped version [here](http://storage.windows.net). You can also find the original unzipped download link from the City of Chicago [here](https://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD).
 
-After downloading the CSV file, we can import this data to our database using the mongoimport utility we used previously to import the test bank_data json:
+After downloading the CSV file, we can import this data to our database using the ```mongoimport``` utility we used previously to import the test bank_data json:
 
 ```
 mongoimport Crimes_-_2001_to_present.csv --type csv --headerline --collection crimes
@@ -29,7 +30,7 @@ The ```--type``` parameter specifies its a csv file, ```--headerline``` indicate
 
 Doing this command may take a while and it should be noted that you should do this on a fairly fast machine or else working with data this large may hang up your machine.
 
-Here's what your outlook will look like:
+Here's what your output will look like:
 
 ```
 connected to: 127.0.0.1
@@ -43,7 +44,7 @@ connected to: 127.0.0.1
 2014-11-17T21:36:16.003-0800 			49000	4083/second
 ```
 
-Afterwards you should have about 5.6 million documents uploaded. Here's a sample of what your documents will look like:
+Afterwards you should have about 5.6 million documents uploaded, each representing a police report incident. Here's a sample of what your documents will look like:
 
 ```
 { "_id" : ObjectId("5462725476ecd357dbbc721e"), "ID" : 9844675, "Case Number" : "HX494115", "Date" : "11/03/2014 11:51:00 PM", "Block" : "056XX S MORGAN ST", "IUCR" : 486, "Primary Type" : "BATTERY", "Description" : "DOMESTIC BATTERY SIMPLE", "Location Description" : "ALLEY", "Arrest" : "false", "Domestic" : "true", "Beat" : 712, "District" : 7, "Ward" : 16, "Community Area" : 68, "FBI Code" : "08B", "X Coordinate" : 1170654, "Y Coordinate" : 1867165, "Year" : 2014, "Updated On" : "11/10/2014 12:43:02 PM", "Latitude" : 41.790980835, "Longitude" : -87.649786614, "Location" : "(41.790980835, -87.649786614)" }
@@ -57,7 +58,7 @@ The best way to explain map reduce is to attempt to answer a question about the 
 
 **What day of the week has the most crime incidents recorded in Chicago?**
 
-Map Reduce breaks down this problem into 2 steps, **Map** and **Reduce**.
+[Map Reduce](http://en.wikipedia.org/wiki/MapReduce) breaks down this problem into 2 steps, **Map** and **Reduce**.
 
 ## Mapping
 
@@ -93,6 +94,10 @@ We can't execute the code snippet above since it's not complete yet without our 
 The second step in this process is to reduce the these mappings into a resulting data set which sort of *summarizes* the mappings we've created. The original question at hand would like us to *summarize*  which day of the week crimes happened most frequently in Chicago.
 
 The Map step has already created a large amount of mappings of 5.6 million crime documents to 7 different types of mappings. If we summarized the data by summing the total number of crime documents for each key (the day of the week) we would quickly be able to answer the question at hand.
+
+Here's a Visual representation of what the Reduce step does:
+
+![](ScreenShots/mongodbss3.png)
 
 The **reduce** function is the second parameter to the **mapReduce** function where we do this summarization. Reduce is called with 2 parameters, **key** and **values**. 
 
@@ -149,6 +154,7 @@ Putting the entire MapReduce call together for Node.js looks like:
 	var milis = Date.parse(this.Date);
 	var date = new Date(milis);
   	var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  	//emit the mapping between this document and the Day which it cooresponds to.
   	emit(daysOfWeek[date.getDay()], 1);
   },
   function(key, values){
@@ -183,7 +189,7 @@ Putting the entire MapReduce call together for Node.js looks like:
 
 ```
 
-Finally, the output of this map/reduce job gives us the answer we were looking for:
+Finally, the output of this map/reduce job gives us the answer we were looking for in the form of a mongodb collection:
 
 ```
 Number of crimes based on each day of the week
@@ -196,7 +202,7 @@ Number of crimes based on each day of the week
 { _id: 'Wednesday', value: 820651 }
 ```
 
-From the results above barring any statistical science it appears that the most common day that crimes have occurred in Chicago since 2001 to present has been Fridays. This could be a very interesting insight!
+From the results above, barring any actual statistical science, it appears that the most common day that crimes have occurred in Chicago since 2001 to present has been Fridays. This could be a very interesting insight!
 
 # Data Aggregations
 
@@ -212,7 +218,7 @@ Visually we are processing the crimes collection through a series of pipeline st
 
 ![](ScreenShots/mongodbss2.png)
 
-Stage 0 is the initial collection of Crime elements, which has approximately 5.6 million documents. We then use a [**$group** (http://docs.mongodb.org/manual/reference/operator/aggregation/group/) operator to group all those documents into groups by ```Primary Type``` which essentially is the type of crime that was committed.
+Stage 0 is the initial collection of Crime elements, which has approximately 5.6 million documents. We then use a [**$group**] (http://docs.mongodb.org/manual/reference/operator/aggregation/group/) operator to group all those documents into groups by ```Primary Type``` which essentially is the type of crime that was committed.
 
 This leaves us with a new collection of documents one for each group, We will add a **count** field to each group to record how many documents are in that group. Finally we do our next pipeline step which is to sort the input collection which is the collection that came out of the $group operator using the **$sort** operator. We will sort descending by the count field on the grouped collection.
 
@@ -275,7 +281,7 @@ For the provided dataset, here are the results, which also yields some interesti
 { _id: 'DOMESTIC VIOLENCE', count: 1 }
 ```
 
-From our results, it would appear that Theft and Battery have been the most common types of crimes in Chicago by a very large margin for the past 13 years.
+From our results, it would appear that Theft and Battery by far have been the most common types of crimes in Chicago for the past 13 years.
 
 # Aggregates vs Map/Reduce
 
