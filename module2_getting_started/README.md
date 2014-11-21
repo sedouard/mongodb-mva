@@ -1,4 +1,4 @@
-# Getting Started With MongoDB
+# Getting Queries Started With MongoDB
 
 ## Objectives
 
@@ -389,7 +389,8 @@ db.bank_data.find({last_name: "SMITH", "accounts.account_type": "Savings" })[12]
 ```
 
 Notice how we retrieve the entire ```accounts``` array even though we only were looking for the element with the ```account_type``` of Savings. The [```$elemMatch```](http://docs.mongodb.org/manual/reference/operator/projection/elemMatch/) projection operator allows us to return just the first element in an array that meets the criteria. 
-	We can use this operator by passing a second projection object which filters the information returned by MongoDB:
+	
+We can use this operator by passing a second projection object which filters the information returned by MongoDB:
 
 ```js
 
