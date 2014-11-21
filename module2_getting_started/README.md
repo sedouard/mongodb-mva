@@ -1,4 +1,4 @@
-# Getting Queries Started With MongoDB
+# Getting Started With MongoDB Queries
 
 ## Objectives
 
