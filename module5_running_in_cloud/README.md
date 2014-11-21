@@ -14,7 +14,7 @@ Now that we've learned the fundamentals of MongoDB, we're ready to deploy MongoD
 
 ## Why an SSD Virtual Machine
 
-Solid State Disks are what modern high end laptops have shipping with. These disks have  a much higher data transfer rate and don't require a mechanical overhead like traditional hard drives. For a database like MongoDB, not all of your database sits in-memory and for  queries that require MongoDB to go to the disk, can take an especially long time if you aren't using an SSD on your machine.
+Solid State Disks are what modern high end laptops ship with. These disks have  a much higher data transfer rate and don't require a mechanical overhead like traditional hard drives. For a database like MongoDB, not all of your database sits in-memory and for  queries that require MongoDB to go to the disk, can take an especially long time if you aren't using an SSD on your machine.
 
 For this reason, it makes the most sense to use an SSD Virtual Machine for a database like MongoDB. You can checkout more information on Azure 'D' series Virtual Machines which use SSDs [here](http://azure.microsoft.com/blog/2014/09/22/new-d-series-virtual-machine-sizes/).
 
