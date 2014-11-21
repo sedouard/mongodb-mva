@@ -9,7 +9,7 @@ By the end of this section you will know how to:
 
 # Introduction
 
-Every database has language drivers that allow you to interact with the database from a particular programming language. In this module we will use the Node.js and C# language drivers which allow us to do pretty much everything we are abler to on the Mongo Interactive Shell but from our application.
+Every database has language drivers that allow you to interact with the database from a particular programming language. In this module we will use the Node.js and C# language drivers which allow us to do pretty much everything we are able to on the Mongo Interactive Shell but from our application.
 
 
 # Node.js
@@ -165,7 +165,6 @@ inserted:
     accounts: [ [Object] ],
     _id: 5469be33814972ee25b0aa9d } ]
 inserted 1 docs
-found 50001 person docs
 ```
 
 ## Updating a stored document
@@ -178,7 +177,7 @@ var updatedPerson = result[0];
 //increment this persons balance by 100000
 updatedPerson.accounts[0].account_balance += 100000;
 
-bankData.update( { _id: new ObjectID(result[0]._id )}, updatedPerson, {w: 1}, function(err, count){
+bankData.update( { _id: new ObjectID(updatedPerson._id )}, updatedPerson, {w: 1}, function(err, count){
 	  	if(err){
   			return console.error(err);
   		}
@@ -267,10 +266,9 @@ In the above snippets we've gone through each type of CRUD operation. We've crea
 Putting all these pieces together in order requires us to interleave the calls within each callback. In Node.js development there are libraries that implement [promises]() or futures that help make your code more linear looking.
 
 ```js
-//create a reference to the collectiion 'bank_data'
-var bankData = db.collection('bank_data');
+  
+  var bankData = db.collection('bank_data');
 
-//insert a new document
   bankData.insert({
   	first_name: "Steven",
   	last_name: "Edouard",
@@ -293,7 +291,6 @@ var bankData = db.collection('bank_data');
   	var updatedPerson = result[0];
   	updatedPerson.accounts[0].account_balance += 100000;
 
-	//update the document we just entered into mongodb
   	bankData.update( { _id: new ObjectID(result[0]._id )}, updatedPerson, {w: 1}, function(err, count){
 
   		if(err){
@@ -302,8 +299,9 @@ var bankData = db.collection('bank_data');
 
   		console.log('sucessfully updated ' + count + ' person documents');
 
-  		//retrieve the inserted document from mongodb
+  		//retrieve the inserted collection from mongodb
 	  	//should be the exact same object we just updated
+	  	
 	  	bankData.findOne({_id: new ObjectID(result[0]._id)}, function(err,doc){
 
 	  		if(err){
@@ -318,6 +316,7 @@ var bankData = db.collection('bank_data');
 	  		}
 
 	  		//now delete the document we just inserted
+
 	  		bankData.remove({_id: new ObjectID(result[0]._id)}, function(err,count){
 
 	  			if(err){
@@ -325,7 +324,7 @@ var bankData = db.collection('bank_data');
 	  				return console.error(err);
 	  			}
 
-	  			console.log('successfully deleted ' + count + ' documents');
+	  			console.log('sucessfully deleted ' + count + ' documents');
 
 	  			return db.close();
 	  		});
@@ -333,6 +332,8 @@ var bankData = db.collection('bank_data');
 	  		
 	  	});
   	});
+  	return;
+  });
 ```
 
 Now we'll go through what the functional equivalent of this code looks like in C#.
