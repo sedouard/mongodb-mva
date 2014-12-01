@@ -340,5 +340,36 @@ Now we'll go through what the functional equivalent of this code looks like in C
 
 # C# and .NET
 
-<RAMI, please do the equivalent from above except in C# >
+## Getting Started 
 
+To install the MongoDB driver for C#, you have two options: using [NuGet](http://www.nuget.org/packages/mongocsharpdriver/) or the [MSI installer](https://github.com/mongodb/mongo-csharp-driver/releases).
+
+1. To use the NuGet option, you can right-click on your project file in Visual Studio and press the "Manage NuGet Packages..." item. 
+
+![](ScreenShots/mongo-csharp1.png)
+
+In the Manage NuGet Packages, you can search for "mongocsharpdriver" in the Online packages and press the Install button on the "Official MongoDB C# driver" search result. 
+
+![](ScreenShots/mongo-csharp2.png)
+
+Alternative, you can also execute the following command to install the NuGet package to your project. 
+
+```batch
+Install-Package mongocsharpdriver -Version 1.9.2
+```
+
+2. To use the MSI installer option, download the [CSharpDriver-1.9.2.msi](https://github.com/mongodb/mongo-csharp-driver/releases/download/v1.9.2/CSharpDriver-1.9.2.msi) installer and follow the instructions. After installation is complete, right-click on your project file in Visual Studio and press "Add Reference..."
+
+![](ScreenShots/mongo-csharp2.png)
+
+In the Reference Manager window, go to the "Browse" tab on the left and press the "Browse..." button on the bottom-right. 
+
+![](ScreenShots/mongo-csharp3.png)
+
+In the file picker window, navigate to "C:\Program Files (x86)\MongoDB\CSharpDriver 1.9.2\" folder (or wherever you installed the SDK to) and select both DLL files in that folder. Press the "Add" button.  
+
+![](ScreenShots/mongo-csharp4.png)
+
+Make sure both MongoDB DLLs are still checked in the Reference Manager and press the "OK" button.
+
+![](ScreenShots/mongo-csharp5.png)
