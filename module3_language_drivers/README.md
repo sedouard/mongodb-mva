@@ -108,7 +108,8 @@ bankData.insert({
 
   	console.log('inserted: ');
   	console.log(result);
-  	return console.log('inserted ' + result.length + ' docs');  }) 
+  	return console.log('inserted ' + result.length + ' docs');
+  }) 
 
 ```
 
@@ -378,7 +379,7 @@ Make sure both MongoDB DLLs are still checked in the Reference Manager and press
 
 Firstly, let's go into our Program.cs file and add the following references to the top of the file.  
 
-```
+```cs
 using MongoDB.Bson;
 using MongoDB.Driver;
 ```
