@@ -1,7 +1,7 @@
 You've Got Documents! A MongoDB Jump Start
 ===========
 
-This is a [Microsoft Virtual Academy](http://www.microsoftvirtualacademy.com/) course on getting started with MongoDB.
+This is a [Microsoft Virtual Academy](http://www.microsoftvirtualacademy.com/liveevents/you-ve-got-documents-a-mongodb-jump-start) course on getting started with MongoDB.
 
 ## [Module 1: Introduction to Document Oriented Databases](https://github.com/sedouard/mongodb-mva/tree/master/module1_intro_doc_dbs)
 
