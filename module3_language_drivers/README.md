@@ -386,13 +386,13 @@ using MongoDB.Driver;
 
 Secondly, let's create a MongoClient and give it a connection URL. MongoClient is thread safe and serves as the root object for working with a MongoDB instance. The connections are handled by the client and are kept in a thread pool, you do not need to call connect or even disconnect.  
 
-```
+```cs
 MongoClient client = new MongoClient("mongodb://127.0.0.1:27017/test"); // connect to localhost
 ```
 
 Thirdly, you have to get an instance of a MongoServer which gives you advanced ways to get a database and guarantee consistence for your operations.  
 
-```
+```cs
 MongoServer server = client.GetServer();
 MongoDatabase database = server.GetDatabase("test"); // "test" is the name of the database
 ```
@@ -405,13 +405,13 @@ Now that we can connect to the server lets try inserting a new document into the
 
 We have two options to do that; we can use the BsonDocument object or our own data model class. If have not decided how to structure your data and want to take full advantage of Mongo's flexibility, use the BsonDocument object. If you would like a more structured approach to your data or enforce a validation to your documents, you can create your own data model classes.
 
-```
+```cs
 MongoCollection<BsonDocument> bankData = database.GetCollection<BsonDocument>("bank_data");
 ```
 
 We can start inserting into this collection reference by simply specifying the object to be inserted into the collection using the BsonDocument object. You'll also notice that we represent arrays with the BsonArray object.
 
-```
+```cs
 BsonDocument person = new BsonDocument {
     { "first_name", "Steven"},
     { "last_name", "Edouard"},
@@ -428,13 +428,13 @@ bankData.Insert(person);
 
 To check if the insert took place correctly, we only need to check that the id of the person has been changed. Notice that we can access any element in our document by using the [] index operator. 
 
-```
+```cs
 System.Console.WriteLine(person["_id"]);
 ```
 
 Putting everything together to insert the document to our collection:
 
-```
+```cs
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -476,7 +476,7 @@ namespace MongoSample
 
 We've successfully uploaded a person document, now let's modify the existing document that we've inserted. The above code returns the inserted document upon insert so all we need to to is use the update function to update the document in the database.
 
-```
+```cs
 //increment this persons balance by 100000
 person["accounts"][0]["account_balance"] = person["accounts"][0]["account_balance"].AsInt32 + 100000;
 bankData.Save(person);
@@ -497,7 +497,7 @@ Now that we've successfully inserted and updated a document, let's try retrievin
 
 FindOneById is a convenience method to return the first document from a query - this is useful for queries where you only expect a single document. Let's query by the unique _id field:
 
-```
+```cs
 //retrieve the inserted collection from mongodb
 //should be the exact same object we just updated
 BsonDocument newPerson = bankData.FindOneById(person["_id"]);
@@ -518,13 +518,13 @@ However, the Remove method takes a query parameter of type IMongoQuery. With thi
 
 You will need add another using statement to be able to use use the Query object. 
 
-```
+```cs
 using MongoDB.Driver.Builders;
 ```
 
 To remove a method we will use the equality query to select a document with the same _id as the newPerson document.
 
-```
+```cs
 //now delete the document we just inserted
 var query = Query.EQ("_id", newPerson["_id"]);
 WriteConcernResult result = bankData.Remove(query);
@@ -537,7 +537,7 @@ number of documents removed: 1
 ```
 
 You can build more complex your queries by using the methods in the Query object. This is an example: 
-```
+```cs
 var query = Query.And(
     Query.EQ("first_name", "Steven"),
     Query.EQ("last_name", "Edouard")
@@ -548,7 +548,7 @@ var query = Query.And(
 
 In the above snippets we've gone through each type of CRUD operation. We've created a new person document, updated that document, read it and then deleted it.
 
-```
+```cs
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
