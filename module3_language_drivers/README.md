@@ -528,7 +528,7 @@ To remove a method we will use the equality query to select a document with the 
 //now delete the document we just inserted
 var query = Query.EQ("_id", newPerson["_id"]);
 WriteConcernResult result = bankData.Remove(query);
-System.Console.WriteLine(result.Response.AsString);
+System.Console.WriteLine("number of documents removed: " + result.DocumentsAffected);
 ```
 
 The output of this should just be:
