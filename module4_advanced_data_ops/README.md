@@ -18,7 +18,7 @@ MongoDB aggregation tasks allow similar operations as Map Reduce but works as a 
 
 # The Example Data Set
 
-The example data set we will be dealing with is City of Chicago crime police report data from 2001 to 'present' which at the time of writing this is November 2014. The data comes in a large .csv file and we have uploaded a zipped version [here](http://storage.windows.net). You can also find the original unzipped download link from the City of Chicago [here](https://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD).
+The example data set we will be dealing with is City of Chicago crime police report data from 2001 to 'present' which at the time of writing this is November 2014. The data comes in a large .csv file and we have uploaded a zipped version [here](https://mongdbmva.blob.core.windows.net/csv/crimedata.csv.zip). You can also find the original unzipped download link from the City of Chicago [here](https://data.cityofchicago.org/api/views/ijzp-q8t2/rows.csv?accessType=DOWNLOAD).
 
 After downloading the CSV file, we can import this data to our database using the ```mongoimport``` utility we used previously to import the test bank_data json:
 
