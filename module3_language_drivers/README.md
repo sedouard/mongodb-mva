@@ -90,7 +90,7 @@ bankData.insert({
 
 Finally because Node.js is completely asynchronous, we'll have to add a callback which will be executed once the insert is completed:
 
-```
+```js
 
 bankData.insert({
   	first_name: "Steven",
