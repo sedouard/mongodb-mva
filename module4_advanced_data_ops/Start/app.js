@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 var ObjectID = require('mongodb').ObjectID;
 // Connection URL
-var url = 'mongodb://mongodb-mva-3dc0g242.cloudapp.net:27017/test';
+var url = 'mongodb://127.0.0.1:27017/test';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
 
