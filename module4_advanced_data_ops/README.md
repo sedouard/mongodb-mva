@@ -5,7 +5,7 @@
 
 By the end of this module you'll know how:
 
-- Load large cdv data sets into MongoDB
+- Load large csv data sets into MongoDB
 - The basics of Map Reduce and Aggregations
 - To process data with Map/Reduce tasks in MongoDB against a large collection
 - To process data MongoDB Aggregation Tasks
