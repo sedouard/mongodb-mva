@@ -16,7 +16,7 @@ Every database has language drivers that allow you to interact with the database
 
 ## Getting Started
 
-To install the MongoDB driver for Node.js execute the following command in the [Start](./Start) directory of this folder.
+To install the MongoDB driver for Node.js execute the following command in the [Start](./Start) directory of this folder. Ensure you have [node.js installed](http://nodejs.org)
 
 ```batch
 npm install
