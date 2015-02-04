@@ -637,7 +637,7 @@ Now you can see that we are only selecting Persons with USD bank accounts greate
 What if the bank wanted to exclude all persons with a checking account from this query. We can do this by adding the **$ne** into the $elemMatch operator alias:
 
 ```js
-db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currency': 'USD', 'accounts.account_type': {$ne: 'Checking' } })
+db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'accounts.currency': 'USD', 'accounts.account_type': {$ne: 'Checking' } })
 ```
 
 This query will exclude *any* person with a checking account regardless of balance. In the sample of documents received, note there are no Checking accounts:
@@ -682,7 +682,7 @@ Now you can see we have some Person documents with checking accounts but none wi
 We can also order our query by descending account balance with the **sort()** function like we did previously:
 
 ```js
-db.bank_data.find({ accounts: { $elemMatch : { "account_type": {$ne: "Checking"}, "currency": "USD", 'account_balance' : { $gt: 9900000 } } } } ).sort({ accounts.account_balance: -1 })
+db.bank_data.find({ accounts: { $elemMatch : { "account_type": {$ne: "Checking"}, "currency": "USD", 'account_balance' : { $gt: 9900000 } } } } ).sort({ "accounts.account_balance": -1 })
 ```
 
 To make the output cleaner we can use a projection object with the $ operator:
