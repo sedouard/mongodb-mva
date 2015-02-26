@@ -5,7 +5,7 @@ This is a [Microsoft Virtual Academy](http://www.microsoftvirtualacademy.com/liv
 
 ## [Module 1: Introduction to Document Oriented Databases](https://github.com/sedouard/mongodb-mva/tree/master/module1_intro_doc_dbs)
 
-Introductory module covering the basics of document oriented databases vs tabular databases. In this module you'll understand the fundamental organization of document databses.
+Introductory module covering the basics of document oriented databases vs tabular databases. In this module you'll understand the fundamental organization of document databases.
 
 ## [Module 2: Getting Started with MongoDB Queries](https://github.com/sedouard/mongodb-mva/tree/master/module2_getting_started)
 
@@ -21,7 +21,7 @@ In Advanced Data Processing, Map Reduce and Aggregations are covered by answerin
 
 ## [Module 5: Running MongoDB In the Cloud](https://github.com/sedouard/mongodb-mva/tree/master/module5_running_in_cloud)
 
-In this section, we'll go over how you can run MongoDB in an Ubuntu Virtual Machine. The module covers opening the MongoDB endpoint on the server as well as configuring MongoDB to be acessible from your client application.
+In this section, we'll go over how you can run MongoDB in an Ubuntu Virtual Machine. The module covers opening the MongoDB endpoint on the server as well as configuring MongoDB to be accessible from your client application.
 
 
 
