@@ -525,7 +525,7 @@ The '1' means to sort ascending by the specified column, and '-1' means sort des
 ```
 ### Greater Than, Less Than, Not Equal To Operators
 
-Like the **$or** operator alias, mongodb also offers the **$gt**, **$lt**, **$ne** operator aliases for greater than, less than and equal to operators, respectivley. There are also coorsponding **$gte**, **$lte** for greater than or equal to and less than or equal to.
+Like the **$or** operator alias, mongodb also offers the **$gt**, **$lt**, **$ne** operator aliases for greater than, less than and not equal to operators, respectivley. There are also coorsponding **$gte**, **$lte** for greater than or equal to and less than or equal to.
 
 Say that we only wanted to retrieve persons with any bank account with an account balance greater than 9 million dollars USD.
 	
