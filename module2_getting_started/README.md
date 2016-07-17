@@ -575,7 +575,7 @@ Here's the 1000th returned Person document:
 This still doesn't get us exactly where we want to be just yet since we aren't taking into consideration the *currency* field. It isn't accurate to query by just the account balance because different currencies are worth different amounts. We can combine $gt operator with an **and** operation by just specifying the second field in the sub document:
 
 ```js
-db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'account.currency': 'USD' })
+db.bank_data.find({ 'accounts.account_balance': {$gt: 9000000}, 'accounts.currency': 'USD' })
 ```
 
 Although this seems correct its actually subtly inaccurate. This query will return Persons with an account that has at least 9 Million and an account that has a currency type of USD. Unfortunatley that's not what we were looking for.
